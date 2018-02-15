@@ -29,9 +29,9 @@
       command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
-    - name: Install gluster-fuse
+    - name: Install glusterfs-fuse
       yum: 
-        name: gluster-fs
+        name: glusterfs-fuse
         state: latest
 
     - modprobe:
