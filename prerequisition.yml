@@ -29,3 +29,19 @@
       command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
+    - name: Install gluster-fuse
+      yum: 
+        name: gluster-fs
+        state: latest
+
+    - modprobe:
+        name: dm_snapshot
+        state: present
+
+    - modprobe:
+        name: dm_mirror
+        state: present
+
+    - modprobe:
+        name: dm_thin_pool
+        state: present
