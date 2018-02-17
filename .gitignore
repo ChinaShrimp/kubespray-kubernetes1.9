@@ -93,3 +93,5 @@ target/
 # virtualenv
 venv/
 ENV/
+
+docker-images/
