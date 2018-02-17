@@ -10,6 +10,12 @@
         name: docker
         state: latest
 
+    - name: enable docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
     - name: disable selinux
       selinux:
         state: disabled
@@ -55,3 +61,14 @@
     - modprobe:
         name: dm_thin_pool
         state: present
+
+    - name: copy docker images to remote hosts
+      copy:
+        src: ./docker-images/
+        dest: /root/docker-images
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: load docker images
+      shell: find /root/docker-images/ -name "*.tar" -exec docker load -i {} \;
