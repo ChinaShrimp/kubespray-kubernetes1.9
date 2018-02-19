@@ -5,10 +5,26 @@
         name: epel-release
         state: latest
 
+    - name: download docker ce repo file
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: change to UESTC mirror site
+      shell: sed -i "s#download.docker.com#mirrors.ustc.edu.cn/docker-ce#g" "{{ item }}"
+      with_items:
+        - /etc/yum.repos.d/docker-ce.repo
+
     - name: install docker
       yum:
-        name: docker
+        name: "{{ item }}"
         state: latest
+        update_cache: yes
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+        - docker-ce
 
     - name: enable docker service
       systemd:
